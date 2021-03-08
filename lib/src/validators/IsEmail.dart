@@ -1,5 +1,6 @@
 import 'package:bandicoot/bandicoot.dart';
-import 'package:validators/validators.dart';
+
+bool isEmail(String emailAddress) => true;
 
 class IsEmail implements Validator<String> {
   String? message;

@@ -1,5 +1,6 @@
 import 'package:bandicoot/bandicoot.dart';
-import 'package:validators/sanitizers.dart';
+
+num toInt(String intString, {int? radix: 10}) => 1;
 
 class ToInt implements Sanitizer<String, num> {
   int? radix = 10;
