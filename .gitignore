@@ -1,0 +1,10 @@
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Pub
+.dart_tool
+.packages
+pubspec.lock
+build/

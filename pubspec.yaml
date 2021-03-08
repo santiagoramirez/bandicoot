@@ -1,0 +1,11 @@
+name: bandicoot
+
+version: 0.0.1
+
+description: Simple validation library for the backend or frontend.
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  validators: ^2.0.1
