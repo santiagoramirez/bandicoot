@@ -3,35 +3,50 @@ A simple validation library + API for Dart.
 
 ### Example Usage
 
+Property validators can be defined in two different ways:
+
 ```dart
-import 'package:bandicoot/bandicoot.dart';
-import 'package:bandicoot/validators.dart';
+Bandicoot RegisterUserValidator = Bandicoot([
+  PropertyValidator('firstName'),
+  PropertyValidator('lastName', validators: [IsString()]),
+  PropertyValidator('emailAddress', validators: [IsEmail()]),
+  PropertyValidator('confirmEmailAddress',
+      validators: [MatchesProperty('emailAddress')]),
+  PropertyValidator('password', validators: [IsPassword()]),
+  PropertyValidator('confirmPassword',
+      validators: [MatchesProperty('password')])
+]);
+```
 
-class LoginValidator extends Bandicoot {
-  String emailAddress;
-  String password;
+or
 
-  LoginValidator({this.emailAddress, this.password}) {
-    this.setValidators([
-      PropertyValidator('emailAddress', validate: [IsEmail()]),
-      PropertyValidator('password', validate: [IsPassword()])
-    ]);
-  }
+```dart
+Bandicoot RegisterUserValidator = Bandicoot()
+  ..property('firstName', validators: [IsString()])
+  ..property('lastName', validators: [IsString()])
+  ..property('emailAddress', validators: [IsEmail()])
+  ..property('confirmEmailAddress', validators: [MatchesProperty('emailAddress')])
+  ..property('password', validators: [IsPassword()])
+  ..property('confirmPassword', validators: [MatchesProperty('password')]);
+```
 
-  @override
-  Map toMap() {
-    return {emailAddress: this.emailAddress, password: this.password};
-  }
-}
+Using the validator:
 
+```dart
 void main() {
-  LoginValidator validator =
-      LoginValidator(emailAddress: 'example@gmail.com', password: 'insecure');
+  Map<String, dynamic> registerData = new Map();
 
-  try {
-    List<String> errors = validator.validate();
-  } catch (e) {
-    print(e);
+  registerData['emailAddress'] = 'example@gmail.com';
+  registerData['confirmEmailAddress'] = 'example@gmail.com';
+  registerData['password'] = 'insecure';
+  registerData['confirmPassword'] = 'not the same';
+
+  List<String> errors = RegisterUserValidator.validate(registerData);
+
+  if (errors.length > 0) {
+    // Errors have been returned
+  } else {
+    // Error free!
   }
 }
 ```
