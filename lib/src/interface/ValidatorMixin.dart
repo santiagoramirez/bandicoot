@@ -12,13 +12,15 @@ class ValidatorMixin {
     return sanitizedMap;
   }
 
-  /// Used by [BandicootMixin.validate()] to validate class values.
+  /// Used by [validate()] and [sanitize()] to validate class values.
   Map toMap() {
-    throw UnimplementedError();
+    throw UnimplementedError(
+        'If using validate() or sanitize(), toMap() must be implemented');
   }
 
-  /// Used by [BandicootMixin.sanitize()] to write sanitized values to the class instance.
+  /// Used by [sanitize()] to write sanitized values to the class instance.
   void toClass(Map map) {
-    throw UnimplementedError();
+    throw UnimplementedError(
+        'If using sanitize(), toClass(map) must be implemented');
   }
 }
