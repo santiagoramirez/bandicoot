@@ -2,7 +2,7 @@ import 'package:bandicoot/bandicoot.dart';
 
 bool isString(String value) => value is String;
 
-Validator<String> IsString({String? message}) => Validator(
+ValidationRule<String> IsString({String? message}) => ValidationRule(
     message: message,
     constraints: [],
     validate: (value, arguments) {

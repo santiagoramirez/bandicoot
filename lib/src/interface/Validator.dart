@@ -1,18 +1,52 @@
 import 'package:bandicoot/bandicoot.dart';
 
-typedef Future<bool> Validate<T>(T value, ValidationArguments arguments);
+class Validator {
+  List<PropertyValidator> _validators = [];
 
-typedef String DefaultMessage<T>(ValidationArguments<T> arguments);
+  Validator([List<PropertyValidator>? validators]) {
+    if (validators != null) {
+      this._validators = validators;
+    }
+  }
 
-class Validator<T> {
-  String? message;
-  List<dynamic> constraints;
-  Validate<T> validate;
-  DefaultMessage<T> defaultMessage;
+  /// Adds a new property validator.
+  void property(
+      {required String name,
+      List<ValidationRule>? validations,
+      List<SanitizeRule>? sanitizers}) {
+    this._validators.add(PropertyValidator(
+        name: name, validations: validations, sanitizers: sanitizers));
+  }
 
-  Validator(
-      {this.message,
-      required this.constraints,
-      required this.validate,
-      required this.defaultMessage});
+  /// Validates properties that have validators.
+  ///
+  /// Accepts a [map] property which is validated again property validations.
+  /// Validations can be filtered to specific properties using [properties] named parameter.
+  /// Additionally, validations can also be filtered by validation [groups].
+  List<String> validate(Map map,
+      {List<String>? properties,
+      List<String>? groups,
+      bool? whitelist: false}) {
+    this._validators.forEach((validator) {
+      // Validate logic will go here...
+    });
+
+    return [];
+  }
+
+  /// Sanitize properties that have sanitizers.
+  ///
+  /// Runs through property sanitizers and returns a [Map] of sanitized values.
+  /// If a property does not have a sanitizer, the unsanitized value is returned.
+  Map sanitize(Map map) {
+    Map newMap = {};
+
+    this._validators.forEach((validator) {
+      // Sanitize logic will go here...
+      String key = validator.name;
+      newMap[key] = map[key];
+    });
+
+    return newMap;
+  }
 }

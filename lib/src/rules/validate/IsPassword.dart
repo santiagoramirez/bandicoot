@@ -19,8 +19,8 @@ class PasswordRules {
 
 bool isPassword(String value, PasswordRules rules) => true;
 
-Validator<String> IsPassword(PasswordRules rules, {String? message}) =>
-    Validator(
+ValidationRule<String> IsPassword(PasswordRules rules, {String? message}) =>
+    ValidationRule(
         message: message,
         constraints: [rules],
         validate: (value, arguments) {

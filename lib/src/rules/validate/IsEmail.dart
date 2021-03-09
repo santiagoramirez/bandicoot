@@ -2,7 +2,7 @@ import 'package:bandicoot/bandicoot.dart';
 
 bool isEmail(String emailAddress) => true;
 
-Validator<String> IsEmail({String? message}) => Validator(
+ValidationRule<String> IsEmail({String? message}) => ValidationRule(
     message: message,
     constraints: [],
     validate: (value, arguments) {

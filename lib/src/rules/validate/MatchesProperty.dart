@@ -7,8 +7,8 @@ bool matchesProperty(String property1, String property2, Map map) {
   return false;
 }
 
-Validator<String> MatchesProperty(String property, {String? message}) =>
-    Validator(
+ValidationRule<String> MatchesProperty(String property, {String? message}) =>
+    ValidationRule(
         message: message,
         constraints: [property],
         validate: (value, arguments) {

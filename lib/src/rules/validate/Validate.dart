@@ -2,8 +2,8 @@ import 'package:bandicoot/bandicoot.dart';
 
 typedef bool _ValidateFunction<T>(T value);
 
-Validator<T> Validate<T>(_ValidateFunction validate, {String? message}) =>
-    Validator(
+ValidationRule<T> Validate<T>(_ValidateFunction validate, {String? message}) =>
+    ValidationRule(
         message: message,
         constraints: [validate],
         validate: (value, arguments) {

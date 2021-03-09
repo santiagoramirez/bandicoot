@@ -1,7 +1,7 @@
 import 'package:bandicoot/bandicoot.dart';
 
-class BandicootMixin {
-  late Bandicoot validator;
+class ValidatorMixin {
+  late Validator validator;
 
   List<String> validate({List<String>? properties}) =>
       this.validator.validate(this.toMap(), properties: properties);
