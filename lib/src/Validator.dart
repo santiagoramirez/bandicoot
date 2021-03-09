@@ -1,11 +1,18 @@
 import 'package:bandicoot/bandicoot.dart';
 
-typedef bool ValidatorFunc<T>(T value);
+typedef Future<bool> Validate<T>(T value, ValidationArguments arguments);
 
-abstract class Validator<InputType> {
-  late String? message;
-  late List<dynamic> constraints;
-  late ValidatorFunc<InputType> validate;
+typedef String DefaultMessage<T>(ValidationArguments<T> arguments);
 
-  String defaultMessage(ValidationArguments<InputType> arguments);
+class Validator<T> {
+  String? message;
+  List<dynamic> constraints;
+  Validate<T> validate;
+  DefaultMessage<T> defaultMessage;
+
+  Validator(
+      {this.message,
+      required this.constraints,
+      required this.validate,
+      required this.defaultMessage});
 }

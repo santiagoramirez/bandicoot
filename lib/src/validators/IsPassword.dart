@@ -1,16 +1,31 @@
 import 'package:bandicoot/bandicoot.dart';
 
-bool isPassword(String value) => true;
+class PasswordRules {
+  int? min = 15;
+  int? max = 20;
+  bool? requireLowercase = true;
+  bool? requireUppercase = true;
+  bool? requireSpecialCharacters = true;
+  String? specialCharacters = '!@#\$%^&*(){}[]|\:;\'"<,>.?/';
 
-class IsPassword implements Validator<String> {
-  String? message;
-  List<dynamic> constraints = [];
-  ValidatorFunc<String> validate = isPassword;
-
-  IsPassword({this.message});
-
-  @override
-  String defaultMessage(ValidationArguments arguments) {
-    return 'Invalid password of $arguments.value';
-  }
+  PasswordRules(
+      {this.min,
+      this.max,
+      this.requireLowercase,
+      this.requireUppercase,
+      this.requireSpecialCharacters,
+      this.specialCharacters});
 }
+
+bool isPassword(String value, PasswordRules rules) => true;
+
+Validator<String> IsPassword(PasswordRules rules, {String? message}) =>
+    Validator(
+        message: message,
+        constraints: [rules],
+        validate: (value, arguments) {
+          return Future(() => isPassword(value, arguments.constraints[0]));
+        },
+        defaultMessage: (arguments) {
+          return '"$arguments.property" must be a valid password';
+        });

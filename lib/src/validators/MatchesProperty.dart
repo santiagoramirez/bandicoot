@@ -1,20 +1,20 @@
 import 'package:bandicoot/bandicoot.dart';
 
-bool matchesProperty(dynamic value) {
-  return true;
+bool matchesProperty(String property1, String property2, Map map) {
+  if (map[property1] == map[property2]) {
+    return true;
+  }
+  return false;
 }
 
-class MatchesProperty implements Validator<String> {
-  String? message;
-  List<dynamic> constraints = [];
-  ValidatorFunc<String> validate = matchesProperty;
-
-  MatchesProperty(String property, {this.message}) {
-    this.constraints = [property];
-  }
-
-  @override
-  String defaultMessage(ValidationArguments arguments) {
-    return 'Property $arguments.property must match $arguments.constraints[0]';
-  }
-}
+Validator<String> MatchesProperty(String property, {String? message}) =>
+    Validator(
+        message: message,
+        constraints: [property],
+        validate: (value, arguments) {
+          return Future(() => matchesProperty(
+              arguments.property, arguments.constraints[0], arguments.values));
+        },
+        defaultMessage: (arguments) {
+          return '"$arguments.property" must match "$arguments.constraints[0]"';
+        });

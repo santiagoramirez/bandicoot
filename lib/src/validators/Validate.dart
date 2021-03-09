@@ -1,13 +1,14 @@
 import 'package:bandicoot/bandicoot.dart';
 
-class Validate implements Validator<dynamic> {
-  String? message;
-  List<dynamic> constraints = [];
-  late ValidatorFunc<dynamic> validate;
+typedef bool _ValidateFunction<T>(T value);
 
-  Validate(this.validate, {this.message});
-
-  String defaultMessage(ValidationArguments arguments) {
-    return '$arguments.property';
-  }
-}
+Validator<T> Validate<T>(_ValidateFunction validate, {String? message}) =>
+    Validator(
+        message: message,
+        constraints: [validate],
+        validate: (value, arguments) {
+          return Future(() => arguments.constraints[0](value));
+        },
+        defaultMessage: (arguments) {
+          return '"$arguments.property" does not pass validation';
+        });

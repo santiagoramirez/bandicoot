@@ -1,24 +1,10 @@
 # Bandicoot
 A simple validation library + API for Dart.
 
+Currently a work in progress.
+
 ### Example Usage
 
-Property validators can be defined in two different ways:
-
-```dart
-Bandicoot RegisterUserValidator = Bandicoot([
-  PropertyValidator('firstName'),
-  PropertyValidator('lastName', validators: [IsString()]),
-  PropertyValidator('emailAddress', validators: [IsEmail()]),
-  PropertyValidator('confirmEmailAddress',
-      validators: [MatchesProperty('emailAddress')]),
-  PropertyValidator('password', validators: [IsPassword()]),
-  PropertyValidator('confirmPassword',
-      validators: [MatchesProperty('password')])
-]);
-```
-
-or
 
 ```dart
 Bandicoot RegisterUserValidator = Bandicoot()
@@ -28,11 +14,7 @@ Bandicoot RegisterUserValidator = Bandicoot()
   ..property('confirmEmailAddress', validators: [MatchesProperty('emailAddress')])
   ..property('password', validators: [IsPassword()])
   ..property('confirmPassword', validators: [MatchesProperty('password')]);
-```
 
-Using the validator:
-
-```dart
 void main() {
   Map<String, dynamic> registerData = new Map();
 

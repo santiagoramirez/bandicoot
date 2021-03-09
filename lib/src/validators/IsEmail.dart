@@ -2,15 +2,12 @@ import 'package:bandicoot/bandicoot.dart';
 
 bool isEmail(String emailAddress) => true;
 
-class IsEmail implements Validator<String> {
-  String? message;
-  List<dynamic> constraints = [];
-  ValidatorFunc<String> validate = isEmail;
-
-  IsEmail({this.message});
-
-  @override
-  String defaultMessage(ValidationArguments arguments) {
-    return 'Invalid email address of $arguments.value';
-  }
-}
+Validator<String> IsEmail({String? message}) => Validator(
+    message: message,
+    constraints: [],
+    validate: (value, arguments) {
+      return Future(() => isEmail(value));
+    },
+    defaultMessage: (arguments) {
+      return '"$arguments.property" must be a valid email address';
+    });
