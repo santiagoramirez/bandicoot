@@ -3,9 +3,10 @@ export 'src/interface/SanitizeRule.dart';
 export 'src/interface/ValidationArguments.dart';
 export 'src/interface/ValidationRule.dart';
 export 'src/interface/Validator.dart';
-export 'src/interface/ValidatorMixin.dart';
 
+export 'src/rules/sanitize/ToDate.dart';
 export 'src/rules/sanitize/ToInt.dart';
+export 'src/rules/sanitize/ToString.dart';
 
 export 'src/rules/validate/IsEmail.dart';
 export 'src/rules/validate/IsEnum.dart';

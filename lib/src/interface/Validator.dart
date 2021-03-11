@@ -1,4 +1,5 @@
 import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/helpers/filtering.dart';
 
 class Validator {
   List<PropertyValidator> _validators = [];
@@ -12,10 +13,14 @@ class Validator {
   /// Adds a new property validator.
   void property(
       {required String name,
+      List<String>? groups,
       List<ValidationRule>? validations,
       List<SanitizeRule>? sanitizers}) {
     this._validators.add(PropertyValidator(
-        name: name, validations: validations, sanitizers: sanitizers));
+        name: name,
+        groups: groups,
+        validations: validations,
+        sanitizers: sanitizers));
   }
 
   /// Validates properties that have validators.
@@ -29,33 +34,68 @@ class Validator {
       bool? whitelist: false}) async {
     List<String> errors = [];
 
-    for (PropertyValidator validator in this._validators) {
-      String property = validator.property;
-      dynamic value = values[property];
+    Iterable<PropertyValidator> filtered = this._validators.where((p) =>
+        isInProperties(p.property, properties) && isInGroups(p.groups, groups));
 
-      if (value == null) {
-        errors.add('$property cannot be null');
-        continue;
-      }
+    for (PropertyValidator propertyValidator in filtered) {
+      List<String> propertyErrors =
+          await this._getPropertyValidatorErrors(propertyValidator, values);
 
-      for (ValidationRule rule in validator.validations) {
-        List<dynamic> constraints = rule.constraints;
-
-        ValidationArguments arguments = ValidationArguments(
-            property: property,
-            constraints: constraints,
-            value: value,
-            values: values);
-
-        bool pass = await rule.validate(value, arguments);
-
-        if (pass == false) {
-          errors.add(rule.defaultMessage(arguments));
-        }
+      if (propertyErrors.length > 0) {
+        errors.addAll(propertyErrors);
       }
     }
 
     return errors;
+  }
+
+  /// Execute the validation rules on a [PropertyValidator] and return errors.
+  Future<List<String>> _getPropertyValidatorErrors(
+      PropertyValidator propertyValidator, Map values) async {
+    String property = propertyValidator.property;
+    dynamic value = values[property];
+    List<String> errors = [];
+
+    if (value == null) {
+      if (propertyValidator.require) {
+        return ['$property is a required field'];
+      } else {
+        return [];
+      }
+    }
+
+    for (ValidationRule rule in propertyValidator.validations) {
+      String? message =
+          await this._getValidationRuleError(rule, property, values);
+
+      if (message != null) {
+        errors.add(message);
+      }
+    }
+
+    return errors;
+  }
+
+  /// Execute [ValidationRule.validate] and return defined error message if validation does not pass.
+  Future<String?> _getValidationRuleError(
+      ValidationRule rule, String property, Map values) async {
+    List<dynamic> constraints = rule.constraints;
+
+    ValidationArguments arguments = ValidationArguments(
+        property: property,
+        constraints: constraints,
+        value: values[property],
+        values: values);
+
+    bool pass = await rule.validate(values[property], arguments);
+
+    if (pass == false && rule.message != null) {
+      return rule.message;
+    } else if (pass == false) {
+      return rule.defaultMessage(arguments);
+    } else {
+      return null;
+    }
   }
 
   /// Sanitize properties that have sanitizers.
