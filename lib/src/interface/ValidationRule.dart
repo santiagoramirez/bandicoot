@@ -8,8 +8,8 @@ typedef String DefaultValidationMessage<T>(ValidationArguments<T> arguments);
 class ValidationRule<T> {
   String? message;
   List<dynamic> constraints;
-  ValidationFunction<T> validate;
-  DefaultValidationMessage<T> defaultMessage;
+  ValidationFunction<dynamic> validate;
+  DefaultValidationMessage<dynamic> defaultMessage;
 
   ValidationRule(
       {this.message,

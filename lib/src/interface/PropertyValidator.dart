@@ -1,10 +1,10 @@
 import 'package:bandicoot/bandicoot.dart';
 
 class PropertyValidator {
-  late String name;
-  late List<ValidationRule>? validations;
-  late List<SanitizeRule>? sanitizers;
-  late List<String>? groups;
+  late String property;
+  late List<ValidationRule> validations;
+  late List<SanitizeRule> sanitizers;
+  late List<String> groups;
 
   PropertyValidator({
     required String name,
@@ -12,9 +12,9 @@ class PropertyValidator {
     List<SanitizeRule>? sanitizers,
     List<String>? groups,
   }) {
-    this.name = name;
-    this.validations = validations;
-    this.sanitizers = sanitizers;
-    this.groups = groups;
+    this.property = name;
+    this.validations = validations ?? [];
+    this.sanitizers = sanitizers ?? [];
+    this.groups = groups ?? [];
   }
 }

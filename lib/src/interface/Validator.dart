@@ -23,15 +23,39 @@ class Validator {
   /// Accepts a [map] property which is validated again property validations.
   /// Validations can be filtered to specific properties using [properties] named parameter.
   /// Additionally, validations can also be filtered by validation [groups].
-  List<String> validate(Map map,
+  Future<List<String>> validate(Map values,
       {List<String>? properties,
       List<String>? groups,
-      bool? whitelist: false}) {
-    this._validators.forEach((validator) {
-      // Validate logic will go here...
-    });
+      bool? whitelist: false}) async {
+    List<String> errors = [];
 
-    return [];
+    for (PropertyValidator validator in this._validators) {
+      String property = validator.property;
+      dynamic value = values[property];
+
+      if (value == null) {
+        errors.add('$property cannot be null');
+        continue;
+      }
+
+      for (ValidationRule rule in validator.validations) {
+        List<dynamic> constraints = rule.constraints;
+
+        ValidationArguments arguments = ValidationArguments(
+            property: property,
+            constraints: constraints,
+            value: value,
+            values: values);
+
+        bool pass = await rule.validate(value, arguments);
+
+        if (pass == false) {
+          errors.add(rule.defaultMessage(arguments));
+        }
+      }
+    }
+
+    return errors;
   }
 
   /// Sanitize properties that have sanitizers.
@@ -43,7 +67,7 @@ class Validator {
 
     this._validators.forEach((validator) {
       // Sanitize logic will go here...
-      String key = validator.name;
+      String key = validator.property;
       newMap[key] = map[key];
     });
 

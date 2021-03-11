@@ -3,8 +3,8 @@ import 'package:bandicoot/bandicoot.dart';
 class ValidatorMixin {
   late Validator validator;
 
-  List<String> validate({List<String>? properties}) =>
-      this.validator.validate(this.toMap(), properties: properties);
+  Future<List<String>> validate({List<String>? properties}) async =>
+      await this.validator.validate(this.toMap(), properties: properties);
 
   Map sanitize() {
     Map sanitizedMap = this.validator.sanitize(this.toMap());

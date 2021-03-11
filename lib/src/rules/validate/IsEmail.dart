@@ -11,5 +11,7 @@ ValidationRule<String> IsEmail({String? message}) => ValidationRule(
     message: message,
     constraints: [],
     validate: (value, arguments) => Future(() => isEmail(value)),
-    defaultMessage: (arguments) =>
-        '"$arguments.property" must be a valid email address');
+    defaultMessage: (arguments) {
+      String property = arguments.property;
+      return '"$property" must be a valid email address';
+    });
