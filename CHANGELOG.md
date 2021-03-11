@@ -1,3 +1,6 @@
+# 0.0.4
+Adding docs + adding new validators.
+
 # 0.0.3
 Cleaning up interface.
 

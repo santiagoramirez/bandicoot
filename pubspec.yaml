@@ -1,5 +1,5 @@
 name: bandicoot
-version: 0.0.3
+version: 0.0.4
 description: Simple validation library for the backend or the frontend.
 repository: https://github.com/santiagoramirez/bandicoot
 environment:
