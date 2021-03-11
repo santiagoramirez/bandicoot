@@ -9,7 +9,10 @@ export 'src/rules/sanitize/ToInt.dart';
 
 export 'src/rules/validate/IsEmail.dart';
 export 'src/rules/validate/IsEnum.dart';
+export 'src/rules/validate/IsEqual.dart';
 export 'src/rules/validate/IsPassword.dart';
 export 'src/rules/validate/IsString.dart';
+export 'src/rules/validate/IsUUID.dart';
+export 'src/rules/validate/Matches.dart';
 export 'src/rules/validate/MatchesProperty.dart';
 export 'src/rules/validate/Validate.dart';
