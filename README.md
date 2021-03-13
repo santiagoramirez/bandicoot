@@ -104,7 +104,7 @@ ValidationRule IsIn(List<dynamic> array, {String? message}) => ValidationRule(
 ### Sample `SanitizeRule`
 
 ```dart
-import 'package:bandicoot/src/api/sanitize_rule.dart';
+import 'package:bandicoot/bandicoot.dart';
 
 DateTime? toDate(String string) {
   try {

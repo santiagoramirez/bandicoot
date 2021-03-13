@@ -14,7 +14,7 @@ export 'src/sanitize/to_string.dart';
 export 'src/validate/equals.dart';
 export 'src/validate/is_email.dart';
 export 'src/validate/is_enum.dart';
-export 'src/validate/is_int.dart';
+export 'src/validate/is_in.dart';
 export 'src/validate/is_password.dart';
 export 'src/validate/is_string.dart';
 export 'src/validate/is_uuid.dart';
