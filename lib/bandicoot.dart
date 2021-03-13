@@ -11,6 +11,7 @@ export 'src/rules/sanitize/ToString.dart';
 export 'src/rules/validate/IsEmail.dart';
 export 'src/rules/validate/IsEnum.dart';
 export 'src/rules/validate/IsEqual.dart';
+export 'src/rules/validate/IsIn.dart';
 export 'src/rules/validate/IsPassword.dart';
 export 'src/rules/validate/IsString.dart';
 export 'src/rules/validate/IsUUID.dart';
