@@ -1,31 +1,34 @@
 import 'package:bandicoot/bandicoot.dart';
 
-class PasswordRules {
-  int? min = 15;
-  int? max = 20;
-  bool? requireLowercase = true;
-  bool? requireUppercase = true;
-  bool? requireSpecialCharacters = true;
-  String? specialCharacters = '!@#\$%^&*(){}[]|\:;\'"<,>.?/';
+import 'package:bandicoot/src/helpers/PasswordRules.dart';
 
-  PasswordRules(
-      {this.min,
-      this.max,
-      this.requireLowercase,
-      this.requireUppercase,
-      this.requireSpecialCharacters,
-      this.specialCharacters});
-}
-
-bool isPassword(String value, PasswordRules rules) => true;
+bool isPassword(String value, PasswordRules rules) =>
+    rules.regex.hasMatch(value);
 
 ValidationRule<String> IsPassword(PasswordRules rules, {String? message}) =>
     ValidationRule(
         message: message,
         constraints: [rules],
-        validate: (value, arguments) {
-          return Future(() => isPassword(value, arguments.constraints[0]));
-        },
+        validate: (value, arguments) =>
+            Future(() => isPassword(value, arguments.constraints[0])),
         defaultMessage: (arguments) {
-          return '"$arguments.property" must be a valid password';
+          PasswordRules rules = arguments.constraints[0];
+          List<String> requirements = [];
+
+          if (rules.requireLowercase) requirements.add('one lowercase letter');
+          if (rules.requireUppercase) requirements.add('one uppercase letter');
+          if (rules.requireNumbers) requirements.add('one number');
+
+          if (rules.requireSpecialCharacters)
+            requirements
+                .add('one special character (${rules.specialCharacters})');
+
+          String lengthString =
+              'be  ${rules.min}-${rules.max} characters long.';
+
+          String requirementsString = requirements.length > 0
+              ? 'must have a least ${requirements.join(', ')} and ${lengthString}.'
+              : 'must ${lengthString}';
+
+          return '"${arguments.property}" must match the following criteria: ${requirementsString}';
         });

@@ -3,13 +3,18 @@ A simple validation library + API for Dart.
 
 Currently a work in progress.
 
+```sh
+pub add bandicoot
+```
+
 ### Example Usage
 
-
 ```dart
+import 'package:bandicoot/bandicoot.dart';
+
 PasswordRules passwordRules = PasswordRules();
 
-Bandicoot RegisterUserValidator = Bandicoot()
+Validator RegisterUserValidator = Validator()
   ..property(
     name:'firstName',
     validators: [IsString()]
