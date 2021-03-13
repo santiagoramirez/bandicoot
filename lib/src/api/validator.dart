@@ -1,7 +1,31 @@
-import 'package:bandicoot/bandicoot.dart';
-import 'package:bandicoot/src/helpers/filtering.dart';
+import 'package:bandicoot/src/api/property_validator.dart';
+import 'package:bandicoot/src/api/sanitize_rule.dart';
+import 'package:bandicoot/src/api/validation_arguments.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
-class Validator {
+/// Determine if [property] is in [properties] list.
+bool _isInProperties(String property, List<String>? properties) {
+  return properties == null ||
+      (properties.length > 0 && properties.contains(property));
+}
+
+/// Determine if [propertyGroups] intersects with [groups].
+bool _isInGroups(List<String>? propertyGroups, List<String>? groups) {
+  bool hasGroups = groups != null && groups.length > 0;
+
+  bool hasGroupsWithoutPropertyGroups = (hasGroups && propertyGroups == null);
+
+  bool hasGroupsWithPropertyGroups = (hasGroups &&
+      propertyGroups != null &&
+      propertyGroups.length > 0 &&
+      propertyGroups.any((g) => groups.contains(g)));
+
+  return (!hasGroups ||
+      hasGroupsWithoutPropertyGroups ||
+      hasGroupsWithPropertyGroups);
+}
+
+class Validator<ClassType> {
   List<PropertyValidator> _validators = [];
 
   Validator([List<PropertyValidator>? validators]) {
@@ -35,7 +59,8 @@ class Validator {
     List<String> errors = [];
 
     Iterable<PropertyValidator> filtered = this._validators.where((p) =>
-        isInProperties(p.property, properties) && isInGroups(p.groups, groups));
+        _isInProperties(p.property, properties) &&
+        _isInGroups(p.groups, groups));
 
     for (PropertyValidator propertyValidator in filtered) {
       List<String> propertyErrors =

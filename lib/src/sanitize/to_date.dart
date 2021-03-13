@@ -1,4 +1,4 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/sanitize_rule.dart';
 
 /// Convert [string] to a [DateTime].
 DateTime? toDate(String string) {
@@ -10,5 +10,5 @@ DateTime? toDate(String string) {
 }
 
 /// [SanitizeRule] for [toDate] sanitizer.
-SanitizeRule<String, DateTime?> ToDate() => SanitizeRule(
+SanitizeRule ToDate() => SanitizeRule(
     constraints: [], sanitize: (value, arguments) => toDate(value));

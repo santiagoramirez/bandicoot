@@ -1,4 +1,4 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/sanitize_rule.dart';
 
 /// Convert [input] to a [String].
 String toString(input) {
@@ -9,5 +9,5 @@ String toString(input) {
 }
 
 /// [SanitizeRule] for [toString] sanitizer.
-SanitizeRule<dynamic, String> ToString() => SanitizeRule(
+SanitizeRule ToString() => SanitizeRule(
     constraints: [], sanitize: (value, arguments) => toString(value));

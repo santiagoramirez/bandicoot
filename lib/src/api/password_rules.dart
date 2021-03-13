@@ -1,5 +1,5 @@
 class PasswordRules {
-  static const DefaultSpecialCharacters = '!@#\$%^&*(){}[]|\:;\'"<,>.?/';
+  static const SPECIAL_CHARS = '!@#\$%^&*(){}[]|\:;\'"<,>.?/';
 
   int min = 8;
   int max = 20;
@@ -7,7 +7,7 @@ class PasswordRules {
   bool requireUppercase = true;
   bool requireNumbers = true;
   bool requireSpecialCharacters = true;
-  String specialCharacters = DefaultSpecialCharacters;
+  String specialCharacters;
 
   PasswordRules(
       {required this.min,
@@ -16,7 +16,7 @@ class PasswordRules {
       required this.requireUppercase,
       required this.requireNumbers,
       required this.requireSpecialCharacters,
-      this.specialCharacters = DefaultSpecialCharacters});
+      this.specialCharacters = SPECIAL_CHARS});
 
   List<String> get _chars {
     List<String> chars = [];
@@ -30,11 +30,9 @@ class PasswordRules {
     return chars;
   }
 
-  String get _charsString => this._chars.join();
-
   String get _lookaheadString =>
       this._chars.map((c) => '(?=.*[$c])').join(', ');
 
   RegExp get regex => RegExp(
-      '/^${this._lookaheadString}[${this._charsString}]{${this.min},${this.max}}\$/');
+      '/^${this._lookaheadString}[${this._chars.join()}]{${this.min},${this.max}}\$/');
 }

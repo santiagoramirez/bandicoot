@@ -1,4 +1,5 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/sanitize_rule.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
 class PropertyValidator {
   late String property;

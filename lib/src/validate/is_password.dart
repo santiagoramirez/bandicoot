@@ -1,11 +1,10 @@
-import 'package:bandicoot/bandicoot.dart';
-
-import 'package:bandicoot/src/helpers/PasswordRules.dart';
+import 'package:bandicoot/src/api/password_rules.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
 bool isPassword(String value, PasswordRules rules) =>
     rules.regex.hasMatch(value);
 
-ValidationRule<String> IsPassword(PasswordRules rules, {String? message}) =>
+ValidationRule IsPassword(PasswordRules rules, {String? message}) =>
     ValidationRule(
         message: message,
         constraints: [rules],

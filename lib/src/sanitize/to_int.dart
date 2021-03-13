@@ -1,4 +1,4 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/sanitize_rule.dart';
 
 /// Convert [string] to an [int].
 num toInt(String string, {int? radix: 10}) {
@@ -14,7 +14,7 @@ num toInt(String string, {int? radix: 10}) {
 }
 
 /// [SanitizeRule] for [toInt] sanitizer.
-SanitizeRule<String, num> ToInt({int? radix = 10}) => SanitizeRule(
+SanitizeRule ToInt({int? radix = 10}) => SanitizeRule(
     constraints: [radix],
     sanitize: (value, arguments) =>
         toInt(value, radix: arguments.constraints[0]));

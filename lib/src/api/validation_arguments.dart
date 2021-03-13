@@ -1,6 +1,6 @@
-class ValidationArguments<ValueType> {
+class ValidationArguments {
   String property;
-  ValueType value;
+  dynamic value;
   Map values;
 
   List<dynamic> constraints = [];

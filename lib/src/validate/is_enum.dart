@@ -1,10 +1,10 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
 /// Check if a value is a valid enum value.
 bool isEnum<T>(T value, T enumType) => value is T;
 
 /// [ValidationRule] for [isEnum] validator.
-ValidationRule<T> IsEnum<T>(T enumType, {String? message}) => ValidationRule(
+ValidationRule IsEnum<T>(T enumType, {String? message}) => ValidationRule(
     message: message,
     constraints: [enumType],
     validate: (value, arguments) =>

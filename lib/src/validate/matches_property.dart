@@ -1,11 +1,11 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
 /// Check if a property value is equal to another property value.
 bool matchesProperty(String property1, String property2, Map map) =>
     map[property1] == map[property2];
 
 /// [ValidationRule] for [matchesProperty] validator.
-ValidationRule<String> MatchesProperty(String property, {String? message}) =>
+ValidationRule MatchesProperty(String property, {String? message}) =>
     ValidationRule(
         message: message,
         constraints: [property],

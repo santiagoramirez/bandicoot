@@ -1,9 +1,9 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
-typedef bool _ValidateFunction<T>(T value);
+typedef bool _ValidateFunction(dynamic value);
 
 /// [ValidationRule] for adding custom validations without the need to create a custom [ValidationRule].
-ValidationRule<T> Validate<T>(_ValidateFunction validate, {String? message}) =>
+ValidationRule Validate(_ValidateFunction validate, {String? message}) =>
     ValidationRule(
         message: message,
         constraints: [validate],

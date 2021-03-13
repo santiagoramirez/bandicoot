@@ -1,10 +1,10 @@
-import 'package:bandicoot/bandicoot.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
 /// Check if s given value is indeed a string.
 bool isString(dynamic value) => value is String;
 
 /// [ValidationRule] for [isString] validator.
-ValidationRule<String> IsString({String? message}) => ValidationRule(
+ValidationRule IsString({String? message}) => ValidationRule(
     message: message,
     constraints: [],
     validate: (value, arguments) => Future(() => isString(value)),

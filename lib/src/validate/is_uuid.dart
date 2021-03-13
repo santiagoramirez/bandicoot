@@ -1,6 +1,6 @@
-import 'package:bandicoot/src/interface/ValidationRule.dart';
+import 'package:bandicoot/src/api/validation_rule.dart';
 
-Map _uuidRegex = {
+Map _UUID_REGEX = {
   '3': new RegExp(
       r'^[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$'),
   '4': new RegExp(
@@ -18,14 +18,15 @@ List<String> _versions = ['3', '4', '5', 'all'];
 /// Valid [version] types include '3', '4', '5' and 'all'
 bool isUUID(String string, [String version = 'all']) =>
     _versions.contains(version.toString()) &&
-    _uuidRegex[version.toString()].hasMatch(string.toUpperCase());
+    _UUID_REGEX[version.toString()].hasMatch(string.toUpperCase());
 
 /// [ValidationRule] for [isUUID] validator
-ValidationRule<String> IsUUID({String version = 'all', String? message}) =>
-    ValidationRule(
-        message: message,
-        constraints: [version],
-        validate: (value, arguments) =>
-            Future(() => isUUID(value, arguments.constraints[0])),
-        defaultMessage: (arguments) =>
-            '"$arguments.property" must be a valid UUID');
+ValidationRule
+    IsUUID({String? version = 'all', String? message}) =>
+        ValidationRule(
+            message: message,
+            constraints: [version],
+            validate: (value, arguments) =>
+                Future(() => isUUID(value, arguments.constraints[0])),
+            defaultMessage: (arguments) =>
+                '"$arguments.property" must be a valid UUID');
