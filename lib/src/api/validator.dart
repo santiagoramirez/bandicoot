@@ -127,15 +127,35 @@ class Validator<ClassType> {
   ///
   /// Runs through property sanitizers and returns a [Map] of sanitized values.
   /// If a property does not have a sanitizer, the unsanitized value is returned.
-  Map sanitize(Map map) {
-    Map newMap = {};
+  Map sanitize(Map values) {
+    Map sanitizedValues = {};
 
-    this._validators.forEach((validator) {
-      // Sanitize logic will go here...
-      String key = validator.property;
-      newMap[key] = map[key];
-    });
+    for (PropertyValidator propertyValidator in this._validators) {
+      sanitizedValues[propertyValidator.property] =
+          this._sanitizeWithPropertyValidator(values, propertyValidator);
+    }
 
-    return newMap;
+    return sanitizedValues;
+  }
+
+  dynamic _sanitizeWithPropertyValidator(
+      Map values, PropertyValidator propertyValidator) {
+    dynamic newValue = values[propertyValidator.property];
+
+    if (propertyValidator.sanitizers.length == 0) {
+      return newValue;
+    }
+
+    for (SanitizeRule sanitizeRule in propertyValidator.sanitizers) {
+      ValidationArguments arguments = ValidationArguments(
+          property: propertyValidator.property,
+          value: newValue,
+          values: values,
+          constraints: sanitizeRule.constraints);
+
+      newValue = sanitizeRule.sanitize(newValue, arguments);
+    }
+
+    return newValue;
   }
 }

@@ -1,3 +1,7 @@
+
+# 0.0.7
+Adding tests for IsIn, IsEmail and MatchesProperty validation rules; implementing sanitize feature.
+
 # 0.0.6
 Organizing library, adding documentation.
 
