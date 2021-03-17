@@ -1,5 +1,5 @@
 class PasswordRules {
-  static const SPECIAL_CHARS = '!@#\$%^&*(){}[]|\:;\'"<,>.?/';
+  static const SPECIAL_CHARS = '!@#\$%^&*(){}\\[\\]\|\:;\'"<,>\.?\\/';
 
   int min = 8;
   int max = 20;
@@ -18,21 +18,21 @@ class PasswordRules {
       required this.requireSpecialCharacters,
       this.specialCharacters = SPECIAL_CHARS});
 
-  List<String> get _chars {
+  List<String> get _charList {
     List<String> chars = [];
 
-    if (this.requireLowercase == true) chars.add('a-z');
-    if (this.requireUppercase == true) chars.add('A-Z');
-    if (this.requireNumbers == true) chars.add('\d');
-    if (this.requireSpecialCharacters == true)
-      chars.add(this.specialCharacters);
+    if (requireLowercase == true) chars.add('a-z');
+    if (requireUppercase == true) chars.add('A-Z');
+    if (requireNumbers == true) chars.add('\\d');
+    if (requireSpecialCharacters == true) chars.add(specialCharacters);
 
     return chars;
   }
 
-  String get _lookaheadString =>
-      this._chars.map((c) => '(?=.*[$c])').join(', ');
+  String get _lookaheads => _charList.map((char) => '(?=.*[$char])').join();
+  String get _chars => _charList.map((char) => '$char').join();
 
-  RegExp get regex => RegExp(
-      '/^${this._lookaheadString}[${this._chars.join()}]{${this.min},${this.max}}\$/');
+  String get regexAsString => '^$_lookaheads[$_chars]{$min,$max}\$';
+
+  RegExp get regex => RegExp(regexAsString);
 }
