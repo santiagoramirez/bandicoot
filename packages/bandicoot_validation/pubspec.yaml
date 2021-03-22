@@ -1,7 +1,7 @@
 name: bandicoot_validation
 version: 0.0.8
 description: Simple validation library for the backend or the frontend.
-repository: https://github.com/santiagoramirez/bandicoot/packages/bandicoot_validation
+repository: https://github.com/santiagoramirez/bandicoot/tree/master/packages/bandicoot_validation
 environment:
   sdk: '>=2.12.0 <3.0.0'
 dev_dependencies:
