@@ -1,9 +1,9 @@
-# bandicoot_validation
+# Bandicoot Validation
 
 ## Introduction
 
-Bandicoot is a validation schema library that makes is easy to create validation schemas and run those validations against a provided `Map`.
-Bandicoot also enables the ability to sanitize map values as well.
+Bandicoot Validation is a validation schema library that makes is easy to create validation schemas and run those validations against a provided `Map`.
+Bandicoot Validation also enables the ability to sanitize map values as well.
 
 ## Creating a Schema
 
