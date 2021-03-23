@@ -1,5 +1,6 @@
 import 'package:bandicoot_orm/src/api/column.dart';
 import 'package:bandicoot_orm/src/api/query.dart';
+import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 import 'package:bandicoot_orm/src/utils/sql_builder.dart';
 
 class SQLCreateTableBuilder {
@@ -15,7 +16,10 @@ class SQLCreateTableBuilder {
     List createColumns = [];
 
     for (Column column in columns) {
-      List<String> createColumn = ['"${column.name}"', column.type.toSql()];
+      List<String> createColumn = [
+        '"${column.name}"',
+        column.type.toSql(SQLDialect.Postgres)
+      ];
 
       if (column.unique) createColumn.add('UNIQUE');
       if (column.index) createColumn.add('INDEX');

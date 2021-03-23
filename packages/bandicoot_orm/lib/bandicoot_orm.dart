@@ -6,5 +6,3 @@ export 'src/api/result.dart';
 export 'src/api/select_query.dart';
 
 export 'src/core/data_type.dart';
-
-export 'src/experimental/entity_2.dart';

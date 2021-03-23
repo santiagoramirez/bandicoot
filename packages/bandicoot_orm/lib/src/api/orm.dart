@@ -1,5 +1,5 @@
 import 'package:bandicoot_orm/src/api/entity.dart';
-import 'package:bandicoot_orm/src/core/connection_manager.dart';
+import 'package:bandicoot_orm/src/connection/connection_manager.dart';
 
 ConnectionManager? _connection;
 

@@ -1,24 +1,25 @@
 import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 
-class _Type {
+class TextType extends DataTypeInterface {
+  final String? type;
+
   static const Tiny = 'tiny';
   static const Medium = 'medium';
   static const Long = 'long';
-}
 
-class TextType extends DataTypeInterface {
-  final String? _type;
+  const TextType([this.type]);
 
-  const TextType([this._type]);
+  String get lowerType => type?.toLowerCase() ?? '';
 
   @override
-  String toSql() {
-    switch (_type?.toLowerCase()) {
-      case _Type.Tiny:
+  String toSql(SQLDialect dialect) {
+    switch (lowerType) {
+      case Tiny:
         return 'TINYTEXT';
-      case _Type.Medium:
+      case Medium:
         return 'MEDIUMTEXT';
-      case _Type.Long:
+      case Long:
         return 'LONGTEXT';
       default:
         return 'TEXT';

@@ -1,30 +1,27 @@
-import 'package:bandicoot_orm/src/core/connection_interface.dart';
+import 'package:bandicoot_orm/src/connection/connection_interface.dart';
+import 'package:bandicoot_orm/src/schema_builders/postgres_schema_builder.dart';
 import 'package:bandicoot_orm/src/utils/sql_builder.dart';
 
 class PostgresConnection<PostgresSQLConnection extends dynamic>
     implements ConnectionInterface {
   PostgresSQLConnection connection;
+  PostgresSchemaBuilder schemaBuilder = PostgresSchemaBuilder();
 
   PostgresConnection(this.connection);
 
-  Future<void> _query(SQLQuery query) async {
-    print(query.query);
-    await connection.query(query.query);
-  }
-
-  connect() async {
-    await connection.open();
-  }
+  connect() async => await connection.open();
 
   initTable(table, columns) async {
     bool dropTable = true;
 
     if (dropTable) {
-      await _query(SQLBuilder.dropTableIfExists(table));
+      await query(SQLBuilder.dropTableIfExists(table).query);
     }
 
-    await _query(SQLBuilder.createTableIfNotExists(table, columns));
+    await query(SQLBuilder.createTableIfNotExists(table, columns).query);
   }
+
+  query(query) async => await connection.query(query);
 
   select(table, columns) async {
     SQLQuery query = SQLBuilder.select(table);

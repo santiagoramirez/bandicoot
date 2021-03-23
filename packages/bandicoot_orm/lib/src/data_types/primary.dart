@@ -1,4 +1,5 @@
 import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 
 class _Type {
   static const ID = 'id';
@@ -12,7 +13,7 @@ class PrimaryType extends DataTypeInterface {
   const PrimaryType([this._type = _Type.ID]);
 
   @override
-  String toSql() {
+  String toSql(SQLDialect dialect) {
     switch (_type) {
       case _Type.ID:
         return 'SERIAL PRIMARY KEY';

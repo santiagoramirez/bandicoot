@@ -1,5 +1,6 @@
 import 'package:bandicoot_orm/src/api/entity.dart';
 import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 
 class ForeignType extends DataTypeInterface {
   final Entity entity;
@@ -11,7 +12,7 @@ class ForeignType extends DataTypeInterface {
   const ForeignType(this.entity, this.foreignKey, {this.type = DefaultType});
 
   @override
-  toSql() {
+  String toSql(SQLDialect dialect) {
     return '$type REFERENCES "${entity.table}" ("$foreignKey")';
   }
 }

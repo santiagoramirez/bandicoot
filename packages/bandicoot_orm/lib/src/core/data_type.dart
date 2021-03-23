@@ -10,10 +10,12 @@ import 'package:bandicoot_orm/src/data_types/string.dart';
 import 'package:bandicoot_orm/src/data_types/text.dart';
 import 'package:bandicoot_orm/src/data_types/uuid.dart';
 
+import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
+
 abstract class DataTypeInterface {
   const DataTypeInterface();
 
-  Core.String toSql();
+  Core.String toSql(SQLDialect dialect);
 
   Core.bool validate(Core.dynamic value) => true;
 }

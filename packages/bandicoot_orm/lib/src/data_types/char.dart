@@ -1,4 +1,5 @@
 import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 
 class CharType extends DataTypeInterface {
   final int? length;
@@ -7,5 +8,5 @@ class CharType extends DataTypeInterface {
 
   const CharType([this.length = DefaultLength]);
 
-  toSql() => 'CHAR($length)';
+  String toSql(SQLDialect dialect) => 'CHAR($length)';
 }
