@@ -1,6 +1,6 @@
 import 'dart:core' as Core;
 
-import 'package:bandicoot_orm/bandicoot_orm.dart';
+import 'package:bandicoot_orm/src/core/entity.dart';
 
 import 'package:bandicoot_orm/src/data_types/char.dart';
 import 'package:bandicoot_orm/src/data_types/enum.dart';

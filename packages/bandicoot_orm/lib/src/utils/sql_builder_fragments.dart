@@ -1,6 +1,6 @@
 import 'package:bandicoot_orm/src/api/column.dart';
-import 'package:bandicoot_orm/src/api/query.dart';
 import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
+import 'package:bandicoot_orm/src/query/query.dart';
 import 'package:bandicoot_orm/src/utils/sql_builder.dart';
 
 class SQLCreateTableBuilder {

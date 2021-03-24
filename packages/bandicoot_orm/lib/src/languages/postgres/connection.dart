@@ -1,46 +1,25 @@
-import 'package:bandicoot_orm/src/connection/connection_interface.dart';
-import 'package:bandicoot_orm/src/schema_builders/postgres_schema_builder.dart';
-import 'package:bandicoot_orm/src/utils/sql_builder.dart';
+import 'package:bandicoot_orm/src/connection/connection.dart';
+import 'package:bandicoot_orm/src/languages/postgres/query_builder.dart';
+import 'package:bandicoot_orm/src/languages/postgres/schema_builder.dart';
+import 'package:bandicoot_orm/src/query/query_result.dart';
 
-class PostgresConnection<PostgresSQLConnection extends dynamic>
-    implements ConnectionInterface {
-  PostgresSQLConnection connection;
-  PostgresSchemaBuilder schemaBuilder = PostgresSchemaBuilder();
+class PostgresConnection extends Connection {
+  /// instance of [PostgresSQLConnection] from postgres package.
+  dynamic postgresSqlConnection;
 
-  PostgresConnection(this.connection);
+  PostgresConnection(this.postgresSqlConnection)
+      : super(PostgresSchemaBuilder(), PostgresQueryBuilder());
 
-  connect() async => await connection.open();
-
-  initTable(table, columns) async {
-    bool dropTable = true;
-
-    if (dropTable) {
-      await query(SQLBuilder.dropTableIfExists(table).query);
-    }
-
-    await query(SQLBuilder.createTableIfNotExists(table, columns).query);
+  @override
+  connect() async {
+    await postgresSqlConnection.open();
   }
 
-  query(query) async => await connection.query(query);
+  @override
+  query<TClass>(query, preparedQuery) async {
+    await postgresSqlConnection.mappedResultsQuery(preparedQuery.query,
+        substitutionValues: preparedQuery.substitutionValues);
 
-  select(table, columns) async {
-    SQLQuery query = SQLBuilder.select(table);
-
-    await connection.mappedResultsQuery(query.query,
-        substitutionValues: query.substitutionValues);
-  }
-
-  insert(table, values) async {
-    SQLQuery query = SQLBuilder.insert(table: table, values: values);
-
-    await connection.mappedResultsQuery(query.query,
-        substitutionValues: query.substitutionValues);
-  }
-
-  update(table, values, where) async {
-    SQLQuery query = SQLBuilder.update(table, values, where);
-
-    await connection.mappedResultsQuery(query.query,
-        substitutionValues: query.substitutionValues);
+    return QueryResult(rows: [], serializer: query.serializer);
   }
 }

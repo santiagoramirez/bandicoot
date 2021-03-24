@@ -1,4 +1,4 @@
-import 'package:bandicoot_orm/src/connection/connection_interface.dart';
+import 'package:bandicoot_orm/src/connection/connection.dart';
 import 'package:bandicoot_orm/src/languages/postgres/connection.dart';
 
 class _Language {
@@ -6,12 +6,11 @@ class _Language {
 }
 
 /// Creates a consistent connection to any supported language.
-class ConnectionManager<LanguageConnection extends dynamic>
-    implements ConnectionInterface<dynamic> {
+class ConnectionManager<TLanguageConnection extends dynamic> {
   String language;
-  LanguageConnection languageConnection;
+  TLanguageConnection languageConnection;
 
-  late ConnectionInterface connection;
+  late Connection connection;
 
   ConnectionManager(this.language, this.languageConnection) {
     switch (language) {
@@ -20,16 +19,7 @@ class ConnectionManager<LanguageConnection extends dynamic>
     }
   }
 
-  connect() async => await this.connection.connect();
-
-  initTable(table, columns) async => await connection.initTable(table, columns);
-
-  query(query) async => await connection.query(query);
-
-  select(table, columns) async => await connection.select(table, columns);
-
-  insert(table, values) async => await connection.insert(table, values);
-
-  update(table, values, where) async =>
-      await connection.update(table, values, where);
+  Future<void> connect() async {
+    connection.connect();
+  }
 }

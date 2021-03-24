@@ -1,5 +1,5 @@
-import 'package:bandicoot_orm/src/api/entity.dart';
 import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/core/entity.dart';
 import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 
 class ForeignType extends DataTypeInterface {

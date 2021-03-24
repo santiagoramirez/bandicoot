@@ -1,6 +1,6 @@
-import 'package:bandicoot_orm/src/schema_builders/schema_builder_interface.dart';
+import 'package:bandicoot_orm/src/schema_builders/schema_builder.dart';
 
-class SQLSchemaBuilder implements SchemaBuilderInterface {
+class SQLSchemaBuilder implements SchemaBuilder {
   const SQLSchemaBuilder();
 
   String buildCreateTable() {
