@@ -40,6 +40,8 @@ class PostgresConnection extends Connection {
 
   @override
   query<TClass>(preparedQuery, [query]) async {
+    print(preparedQuery.query);
+
     List<Map<String, Map<String, dynamic>>> mappedRows =
         await postgresSqlConnection.mappedResultsQuery(preparedQuery.query,
             substitutionValues: preparedQuery.substitutionValues);
@@ -51,8 +53,6 @@ class PostgresConnection extends Connection {
         rows.add(entry.value);
       });
     }
-
-    print(preparedQuery.query);
 
     return QueryResult(rows: rows, serializer: query?.serializer);
   }

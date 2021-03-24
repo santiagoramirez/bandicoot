@@ -4,16 +4,22 @@ import 'package:bandicoot_orm/src/schema_builders/schema_builder.dart';
 
 class SQLSchemaBuilder implements SchemaBuilder {
   @override
-  buildCreateTable(entity) {
-    return PreparedQuery(
-        'CREATE TABLE IF NOT EXISTS "${entity.table}" (${entity.columns.map(buildColumnFragment).join(', ')})');
-  }
+  buildCreateTable(entity) => PreparedQuery(
+      'CREATE TABLE IF NOT EXISTS "${entity.table}" (${entity.columns.map(buildColumnFragment).join(', ')})');
 
   @override
-  buildAddColumn(entity, column) {
-    return PreparedQuery(
-        'ALTER TABLE {${entity.table} ADD COLUMN ${buildColumnFragment(column)}');
-  }
+  buildAddColumn(entity, column) => PreparedQuery(
+      'ALTER TABLE "${entity.table}" ADD COLUMN ${buildColumnFragment(column)}');
+
+  @override
+  buildUpdateColumn(entity, column) => PreparedQuery(
+      'ALTER TABLE "${entity.table}" ALTER COLUMN ${buildColumnFragment(column)}'
+          .replaceAll('SERIAL', '')
+          .replaceAll('PRIMARY KEY', ''));
+
+  @override
+  buildDropColumn(entity, columnName) => PreparedQuery(
+      'ALTER TABLE "${entity.table}" DROP COLUMN "${columnName}"');
 
   @override
   buildColumnFragment(column) {

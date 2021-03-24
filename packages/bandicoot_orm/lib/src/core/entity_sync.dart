@@ -5,7 +5,6 @@ import 'package:bandicoot_orm/src/core/entity.dart';
 /// Sync an [Entity] definition with existing database
 /// tables and columns
 class EntitySync {
-  /// TODO: Remove table columns that are not defined in the entity.
   static Future<void> synchronize(Entity entity, Connection connection) async {
     TableStats tableStats = await connection.getTableStats(entity.table);
 
@@ -20,7 +19,18 @@ class EntitySync {
         // Add column if it does not already exist.
         await connection
             .query(connection.schemaBuilder.buildAddColumn(entity, column));
-        continue;
+      } else {
+        /// TODO: Add ability to update column only if it has different settings.
+      }
+    }
+
+    for (ColumnStats stats in tableStats.columnStats) {
+      try {
+        entity.columns.firstWhere((c) => c.name == stats.name);
+      } catch (e) {
+        // Table column not found in entity so should be removed.
+        await connection.query(
+            connection.schemaBuilder.buildDropColumn(entity, stats.name));
       }
     }
   }
