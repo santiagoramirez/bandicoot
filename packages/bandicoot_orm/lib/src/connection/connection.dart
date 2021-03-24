@@ -18,6 +18,28 @@ Connection createConnection(String databaseType, dynamic databaseConnection) {
   throw 'Unsupported database type: "$databaseType"';
 }
 
+class TableStats {
+  bool isExisting;
+  List<ColumnStats> columnStats;
+
+  TableStats(this.isExisting, this.columnStats);
+
+  bool hasColumn(String name) {
+    try {
+      columnStats.firstWhere((c) => c.name == name);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+}
+
+class ColumnStats {
+  String name;
+
+  ColumnStats(this.name);
+}
+
 class Connection {
   SchemaBuilder schemaBuilder;
   QueryBuilder queryBuilder;
@@ -26,6 +48,10 @@ class Connection {
 
   // Open connection of the chosen database type.
   Future<void> connect() {
+    throw UnimplementedError();
+  }
+
+  Future<TableStats> getTableStats(String table) {
     throw UnimplementedError();
   }
 

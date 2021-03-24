@@ -22,7 +22,7 @@ class BandicootORM {
     await _connection.connect();
 
     for (Entity entity in _entities) {
-      EntitySync.synchronize(entity, _connection);
+      await EntitySync.synchronize(entity, _connection);
     }
   }
 }

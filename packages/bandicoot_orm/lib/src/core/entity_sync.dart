@@ -10,6 +10,7 @@ class EntitySync {
     PreparedQuery createTableQuery =
         connection.schemaBuilder.buildCreateTable(entity);
 
+    await connection.getTableStats(entity.table);
     await connection.query(createTableQuery);
 
     // bool isExisting = await isTableExisting(entity.table);

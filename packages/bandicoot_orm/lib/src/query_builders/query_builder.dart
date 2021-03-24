@@ -2,7 +2,7 @@ import 'package:bandicoot_orm/src/query/query.dart';
 
 class PreparedQuery {
   String query;
-  Map? substitutionValues;
+  Map<String, dynamic>? substitutionValues;
 
   PreparedQuery(this.query, [this.substitutionValues]);
 }
