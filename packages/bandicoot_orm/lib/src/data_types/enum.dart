@@ -3,11 +3,18 @@ import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 
 class EnumType extends DataTypeInterface {
   List<dynamic> _values;
+  late String _enumName;
 
-  EnumType(this._values);
+  EnumType(this._values) {
+    _enumName = '';
+  }
 
   @override
-  String toSql(SQLDialect dialect) => 'VARCHAR(20)';
+  String toSqlBefore() =>
+      'CREATE TYPE ${_enumName} AS ENUM (${_values.join(', ')})';
+
+  @override
+  String toSql(SQLDialect dialect) => _enumName;
 
   @override
   bool validate(dynamic value) => _values.contains(value);

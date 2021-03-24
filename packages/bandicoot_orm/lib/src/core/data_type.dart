@@ -15,7 +15,9 @@ import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 abstract class DataTypeInterface {
   const DataTypeInterface();
 
-  Core.String toSql(SQLDialect dialect);
+  Core.String toSqlBefore() => '';
+
+  Core.String toSql(SQLDialect dialect) => '';
 
   Core.bool validate(Core.dynamic value) => true;
 }

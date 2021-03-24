@@ -4,5 +4,6 @@ import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
 
 abstract class SchemaBuilder {
   PreparedQuery buildCreateTable(Entity entity);
+  PreparedQuery buildAddColumn(Entity entity, Column column);
   String buildColumnFragment(Column column);
 }

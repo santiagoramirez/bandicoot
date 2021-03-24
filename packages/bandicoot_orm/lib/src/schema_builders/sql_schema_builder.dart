@@ -10,6 +10,12 @@ class SQLSchemaBuilder implements SchemaBuilder {
   }
 
   @override
+  buildAddColumn(entity, column) {
+    return PreparedQuery(
+        'ALTER TABLE {${entity.table} ADD COLUMN ${buildColumnFragment(column)}');
+  }
+
+  @override
   buildColumnFragment(column) {
     String columnString =
         '"${column.name}" ${column.type.toSql(SQLDialect.Postgres)}';
