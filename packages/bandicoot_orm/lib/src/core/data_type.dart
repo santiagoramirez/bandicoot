@@ -33,7 +33,9 @@ class DataType {
   static DataTypeInterface Enum(Core.List<Core.dynamic> values) =>
       EnumType(values);
 
-  static DataTypeInterface String([Core.int? length]) => StringType(length);
+  static DataTypeInterface String(
+          [Core.int? length = StringType.DefaultLength]) =>
+      StringType(length);
 
   static DataTypeInterface Char([Core.int? length = CharType.DefaultLength]) =>
       CharType(length);

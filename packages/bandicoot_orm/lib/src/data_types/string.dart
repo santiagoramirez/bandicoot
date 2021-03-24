@@ -4,7 +4,9 @@ import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 class StringType extends DataTypeInterface {
   final int? _length;
 
-  const StringType([this._length = 255]);
+  static const DefaultLength = 255;
+
+  const StringType([this._length = DefaultLength]);
 
   @override
   String toSql(SQLDialect dialect) {
