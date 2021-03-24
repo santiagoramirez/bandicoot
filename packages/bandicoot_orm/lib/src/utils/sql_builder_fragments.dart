@@ -1,38 +1,5 @@
-import 'package:bandicoot_orm/src/api/column.dart';
-import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
 import 'package:bandicoot_orm/src/query/query.dart';
 import 'package:bandicoot_orm/src/utils/sql_builder.dart';
-
-class SQLCreateTableBuilder {
-  String table;
-  List<Column> columns;
-
-  SQLCreateTableBuilder(this.table, this.columns);
-
-  String toString() =>
-      'CREATE TABLE IF NOT EXISTS "$table" (${_createColumns})';
-
-  String get _createColumns {
-    List createColumns = [];
-
-    for (Column column in columns) {
-      List<String> createColumn = [
-        '"${column.name}"',
-        column.type.toSql(SQLDialect.Postgres)
-      ];
-
-      if (column.unique) createColumn.add('UNIQUE');
-      if (column.index) createColumn.add('INDEX');
-      if (!column.nullable) createColumn.add('NOT NULL');
-
-      createColumns.add(createColumn.join(' '));
-    }
-
-    return createColumns.join(', ');
-  }
-
-  SQLQuery toSqlQuery() => SQLQuery(toString());
-}
 
 class SQLInsertBuilder {
   String table;

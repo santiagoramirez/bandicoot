@@ -1,26 +1,28 @@
-import 'package:bandicoot_orm/src/connection/connection_manager.dart';
+import 'package:bandicoot_orm/src/connection/connection.dart';
 import 'package:bandicoot_orm/src/core/entity.dart';
+import 'package:bandicoot_orm/src/core/entity_sync.dart';
 
 export 'src/api/column.dart';
 export 'src/core/data_type.dart';
 export 'src/core/entity.dart';
 
-class BandicootORM<T extends dynamic> {
-  List<Entity> entities;
-  late ConnectionManager<T> connectionManager;
+class BandicootORM {
+  late List<Entity> _entities;
+  late Connection _connection;
 
   BandicootORM(
-      {required String language,
-      required T connection,
-      required this.entities}) {
-    connectionManager = ConnectionManager<T>(language, connection);
+      {required String type,
+      required dynamic connection,
+      required List<Entity> entities}) {
+    _entities = entities;
+    _connection = createConnection(type, connection);
   }
 
   Future<void> connect() async {
-    await connectionManager.connect();
+    await _connection.connect();
 
-    for (Entity entity in entities) {
-      // await entity.init();
+    for (Entity entity in _entities) {
+      EntitySync.synchronize(entity, _connection);
     }
   }
 }

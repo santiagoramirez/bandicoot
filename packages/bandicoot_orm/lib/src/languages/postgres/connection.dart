@@ -16,10 +16,11 @@ class PostgresConnection extends Connection {
   }
 
   @override
-  query<TClass>(query, preparedQuery) async {
+  query<TClass>(preparedQuery, [query]) async {
+    print(preparedQuery.query);
     await postgresSqlConnection.mappedResultsQuery(preparedQuery.query,
         substitutionValues: preparedQuery.substitutionValues);
 
-    return QueryResult(rows: [], serializer: query.serializer);
+    return QueryResult(rows: [], serializer: query?.serializer);
   }
 }

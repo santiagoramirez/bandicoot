@@ -1,5 +1,3 @@
-import 'package:bandicoot_orm/src/api/column.dart';
-
 import './sql_builder_fragments.dart';
 
 class SQLQuery {
@@ -10,12 +8,6 @@ class SQLQuery {
 }
 
 class SQLBuilder {
-  static SQLQuery dropTableIfExists(String table) =>
-      SQLQuery('DROP TABLE IF EXISTS "$table"');
-
-  static SQLQuery createTableIfNotExists(String table, List<Column> columns) =>
-      SQLCreateTableBuilder(table, columns).toSqlQuery();
-
   static SQLQuery select(String table, {List? columns, dynamic? where}) =>
       SQLSelectBuilder(table, columns, where).toSqlQuery();
 
