@@ -1,11 +1,12 @@
+import 'package:bandicoot_orm/bandicoot_orm.dart';
+import 'package:bandicoot_orm/src/connection/connection.dart';
 import 'package:bandicoot_orm/src/core/entity.dart';
+import 'package:bandicoot_orm/src/query/query_result.dart';
 
 class Operator {
   static const Eq = '=';
-
   static const Gt = '>';
   static const GtEq = '>=';
-
   static const Lt = '<';
   static const LtEq = '<';
 }
@@ -53,14 +54,23 @@ class Order {
 
 class Query<TClass> {
   Serializer<TClass> serializer;
+  String instance;
 
-  Query(this.serializer);
+  Query(this.serializer, [this.instance = BandicootORM.defaultInstance]);
+
+  Future<QueryResult<TClass>> execute() async {
+    throw UnimplementedError();
+  }
 }
 
 class FindQuery<TClass> extends Query<TClass> {
-  Serializer<TClass> serializer;
+  FindQuery(Serializer<TClass> serializer,
+      [String instance = BandicootORM.defaultInstance])
+      : super(serializer, instance);
 
-  FindQuery(this.serializer) : super(serializer);
+  execute() async {
+    return await getConnection(instance).find(this);
+  }
 }
 
 // class SelectQuery<TClass> with Where, Limit, Order {

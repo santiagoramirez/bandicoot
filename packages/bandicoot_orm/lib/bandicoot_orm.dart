@@ -7,15 +7,27 @@ export 'src/core/data_type.dart';
 export 'src/core/entity.dart';
 
 class BandicootORM {
+  static Map<String, Connection> connections = {};
+  static const defaultInstance = 'default';
+
   late List<Entity> _entities;
   late Connection _connection;
 
   BandicootORM(
       {required String type,
       required dynamic connection,
-      required List<Entity> entities}) {
+      required List<Entity> entities,
+      String? instance}) {
     _entities = entities;
+
+    String instanceName = instance != null ? instance : defaultInstance;
+
+    if (connections[instanceName] != null) {
+      throw 'Connection instance named "$instanceName" already exists.';
+    }
+
     _connection = createConnection(type, connection);
+    connections[instanceName] = _connection;
   }
 
   Future<void> connect() async {

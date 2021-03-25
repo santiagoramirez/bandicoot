@@ -1,3 +1,4 @@
+import 'package:bandicoot_orm/bandicoot_orm.dart';
 import 'package:bandicoot_orm/src/core/entity.dart';
 import 'package:bandicoot_orm/src/languages/postgres/connection.dart';
 import 'package:bandicoot_orm/src/query/query.dart';
@@ -9,13 +10,20 @@ class _DatabaseType {
   static const Postgres = 'postgres';
 }
 
-Connection createConnection(String databaseType, dynamic databaseConnection) {
-  switch (databaseType) {
+Connection createConnection(String type, dynamic connection) {
+  switch (type) {
     case _DatabaseType.Postgres:
-      return PostgresConnection(databaseConnection);
+      return PostgresConnection(connection);
   }
 
-  throw 'Unsupported database type: "$databaseType"';
+  throw 'Unsupported database type: "$type"';
+}
+
+Connection getConnection([String instance = BandicootORM.defaultInstance]) {
+  if (BandicootORM.connections.containsKey(instance)) {
+    return BandicootORM.connections[instance]!;
+  }
+  throw 'Invalid connection instance';
 }
 
 class TableStats {

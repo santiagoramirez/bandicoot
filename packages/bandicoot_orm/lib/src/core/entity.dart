@@ -1,5 +1,6 @@
 import 'package:bandicoot_orm/src/api/column.dart';
 import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/query/query.dart';
 
 abstract class Serializer<TClass> {
   TClass toClass(Map<String, dynamic> values);
@@ -7,23 +8,36 @@ abstract class Serializer<TClass> {
 }
 
 class Entity<TClass> {
+  /// The database name of the table.
   String table;
+
+  /// Column definitions of the columns that should be created.
   List<Column> columns = [];
+
+  /// Serializer for converting table rows into models and vice versa.
   Serializer<TClass> serializer;
 
   Entity({required this.table, required this.serializer});
 
+  /// Adds a new column to the entity.
+  ///
+  /// [name] - The database name of the column.
+  /// [type] - The database type of the column.
+  /// [unique] - Should this be created as a unique column.
   void column(
       {required String name, required DataTypeInterface type, bool? unique}) {
     this.columns.add(Column(name, type));
   }
 
-  // Future<void> init() async => getConnection().initTable(table, columns);
+  /// Returns a new [FindQuery] to finding resources.
+  FindQuery<TClass> find() => FindQuery(serializer);
 
-  // SelectQuery select() => SelectQuery(table, columns.map((c) => c.name));
+  /// Returns a new [InsertQuery] to inserting resources.
+  InsertQuery<TClass> insert() => InsertQuery(serializer);
 
-  // Future<Result> insert(Map<String, dynamic> values) async =>
-  //     getConnection().insert(table, values) as Future<Result<TClass>>;
+  /// Returns a new [UpdateQuery] for updating resources.
+  UpdateQuery<TClass> update() => UpdateQuery(serializer);
 
-  // UpdateQuery update() => UpdateQuery(table: table);
+  /// Returns a new [DeleteQuery] for deleting resources.
+  DeleteQuery<TClass> delete() => DeleteQuery(serializer);
 }
