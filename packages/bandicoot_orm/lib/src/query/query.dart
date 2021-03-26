@@ -56,7 +56,12 @@ class Query<TClass> {
   Serializer<TClass> serializer;
   String instance;
 
+  late String _table;
+
   Query(this.serializer, [this.instance = BandicootORM.defaultInstance]);
+
+  void table(String table) => _table = table;
+  String getTable() => _table;
 
   Future<QueryResult<TClass>> execute() async {
     throw UnimplementedError();
@@ -105,7 +110,19 @@ class FindQuery<TClass> extends Query<TClass> {
 class InsertQuery<TClass> extends Query<TClass> {
   Serializer<TClass> serializer;
 
+  late Map<String, dynamic> _values;
+  late TClass _model;
+
   InsertQuery(this.serializer) : super(serializer);
+
+  void values(Map<String, dynamic> values) => _values = values;
+  // void model(TClass model) => _model = model;
+
+  get model => 'ddf';
+  set model(dynamic) => 'haha';
+
+  Map<String, dynamic> getValues() => _values;
+  TClass getModel() => _model;
 }
 
 class UpdateQuery<TClass> extends Query<TClass> {

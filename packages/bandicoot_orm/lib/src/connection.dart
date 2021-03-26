@@ -69,7 +69,7 @@ class Connection {
   }
 
   Future<QueryResult<TClass>> find<TClass>(FindQuery<TClass> query) async =>
-      this.query(queryBuilder.buildSearchQuery(query), query);
+      this.query(queryBuilder.buildFindQuery(query), query);
 
   Future<QueryResult<TClass>> insert<TClass>(InsertQuery<TClass> query) async =>
       this.query(queryBuilder.buildInsertQuery(query), query);

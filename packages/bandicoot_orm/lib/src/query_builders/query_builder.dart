@@ -8,8 +8,8 @@ class PreparedQuery {
 }
 
 abstract class QueryBuilder {
-  PreparedQuery buildSearchQuery(FindQuery query);
-  PreparedQuery buildInsertQuery(InsertQuery query);
-  PreparedQuery buildUpdateQuery(UpdateQuery query);
-  PreparedQuery buildDeleteQuery(DeleteQuery query);
+  PreparedQuery buildFindQuery<TClass>(FindQuery<TClass> query);
+  PreparedQuery buildInsertQuery<TClass>(InsertQuery<TClass> query);
+  PreparedQuery buildUpdateQuery<TClass>(UpdateQuery<TClass> query);
+  PreparedQuery buildDeleteQuery<TClass>(DeleteQuery<TClass> query);
 }
