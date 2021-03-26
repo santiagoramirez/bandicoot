@@ -1,4 +1,4 @@
-import 'package:bandicoot_validation/src/api/validation_rule.dart';
+import 'package:bandicoot_validation/src/validation_rule.dart';
 
 ValidationRule IsIn(List<dynamic> array, {String? message}) => ValidationRule(
     message: message,

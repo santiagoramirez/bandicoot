@@ -1,10 +1,10 @@
-import 'package:bandicoot_orm/src/connection/connection.dart';
-import 'package:bandicoot_orm/src/core/entity.dart';
-import 'package:bandicoot_orm/src/core/entity_sync.dart';
+import 'package:bandicoot_orm/src/connection.dart';
+import 'package:bandicoot_orm/src/entity.dart';
+import 'package:bandicoot_orm/src/entity_sync.dart';
 
-export 'src/api/column.dart';
-export 'src/core/data_type.dart';
-export 'src/core/entity.dart';
+export 'src/column.dart';
+export 'src/data_type.dart';
+export 'src/entity.dart';
 
 class BandicootORM {
   static Map<String, Connection> connections = {};

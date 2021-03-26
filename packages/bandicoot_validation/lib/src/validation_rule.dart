@@ -1,4 +1,4 @@
-import 'package:bandicoot_validation/src/api/validation_arguments.dart';
+import 'package:bandicoot_validation/src/validation_arguments.dart';
 
 typedef Future<bool> _Validate(dynamic value, ValidationArguments arguments);
 

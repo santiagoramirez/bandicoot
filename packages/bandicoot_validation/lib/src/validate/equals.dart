@@ -1,4 +1,4 @@
-import 'package:bandicoot_validation/src/api/validation_rule.dart';
+import 'package:bandicoot_validation/src/validation_rule.dart';
 
 /// Check if two strings are equal.
 bool equals(String string, String comparison) =>

@@ -1,4 +1,4 @@
-import 'package:bandicoot_validation/src/api/validation_rule.dart';
+import 'package:bandicoot_validation/src/validation_rule.dart';
 
 /// Check if a value is a valid enum value.
 bool isEnum<T>(T value, T enumType) => value is T;

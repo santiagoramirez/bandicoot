@@ -1,4 +1,4 @@
-import 'package:bandicoot_validation/src/api/validation_rule.dart';
+import 'package:bandicoot_validation/src/validation_rule.dart';
 
 /// Check if a string matches a given regex pattern.
 bool matches(String string, String pattern) =>

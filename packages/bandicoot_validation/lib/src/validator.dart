@@ -1,7 +1,7 @@
-import 'package:bandicoot_validation/src/api/property_validator.dart';
-import 'package:bandicoot_validation/src/api/sanitize_rule.dart';
-import 'package:bandicoot_validation/src/api/validation_arguments.dart';
-import 'package:bandicoot_validation/src/api/validation_rule.dart';
+import 'package:bandicoot_validation/src/property_validator.dart';
+import 'package:bandicoot_validation/src/sanitize_rule.dart';
+import 'package:bandicoot_validation/src/validation_arguments.dart';
+import 'package:bandicoot_validation/src/validation_rule.dart';
 
 /// Determine if [property] is in [properties] list.
 bool _isInProperties(String property, List<String>? properties) {

@@ -1,4 +1,4 @@
-import 'package:bandicoot_orm/src/connection/connection.dart';
+import 'package:bandicoot_orm/src/connection.dart';
 import 'package:bandicoot_orm/src/languages/postgres/query_builder.dart';
 import 'package:bandicoot_orm/src/languages/postgres/schema_builder.dart';
 import 'package:bandicoot_orm/src/query/query_result.dart';

@@ -1,4 +1,4 @@
-import 'package:bandicoot_validation/src/api/password_rules.dart';
+import 'package:bandicoot_validation/src/password_rules.dart';
 import 'package:test/test.dart';
 
 PasswordRules onlyLowercase = PasswordRules(

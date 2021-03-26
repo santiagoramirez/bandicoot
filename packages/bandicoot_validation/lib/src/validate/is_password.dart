@@ -1,5 +1,5 @@
-import 'package:bandicoot_validation/src/api/password_rules.dart';
-import 'package:bandicoot_validation/src/api/validation_rule.dart';
+import 'package:bandicoot_validation/src/password_rules.dart';
+import 'package:bandicoot_validation/src/validation_rule.dart';
 
 bool isPassword(String value, PasswordRules rules) =>
     rules.regex.hasMatch(value);

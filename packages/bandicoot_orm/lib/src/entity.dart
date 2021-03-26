@@ -1,5 +1,5 @@
-import 'package:bandicoot_orm/src/api/column.dart';
-import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/column.dart';
+import 'package:bandicoot_orm/src/data_type.dart';
 import 'package:bandicoot_orm/src/query/query.dart';
 
 abstract class Serializer<TClass> {

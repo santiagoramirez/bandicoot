@@ -1,5 +1,5 @@
-import 'package:bandicoot_validation/src/api/validation_arguments.dart';
-import 'package:bandicoot_validation/src/api/validation_rule.dart';
+import 'package:bandicoot_validation/src/validation_arguments.dart';
+import 'package:bandicoot_validation/src/validation_rule.dart';
 import 'package:bandicoot_validation/src/validate/is_in.dart';
 import 'package:test/test.dart';
 

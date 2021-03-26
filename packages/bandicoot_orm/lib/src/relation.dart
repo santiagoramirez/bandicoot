@@ -1,4 +1,4 @@
-import 'package:bandicoot_orm/src/core/entity.dart';
+import 'package:bandicoot_orm/src/entity.dart';
 
 enum RelationType { OneToOne, OneToMany }
 

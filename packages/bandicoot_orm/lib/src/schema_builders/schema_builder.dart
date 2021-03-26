@@ -1,5 +1,5 @@
-import 'package:bandicoot_orm/src/api/column.dart';
-import 'package:bandicoot_orm/src/core/entity.dart';
+import 'package:bandicoot_orm/src/column.dart';
+import 'package:bandicoot_orm/src/entity.dart';
 import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
 
 abstract class SchemaBuilder {

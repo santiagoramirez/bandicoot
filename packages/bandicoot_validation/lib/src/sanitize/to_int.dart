@@ -1,4 +1,4 @@
-import 'package:bandicoot_validation/src/api/sanitize_rule.dart';
+import 'package:bandicoot_validation/src/sanitize_rule.dart';
 
 /// Convert [string] to an [int].
 num toInt(String string, {int? radix: 10}) {

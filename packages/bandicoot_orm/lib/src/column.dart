@@ -1,4 +1,4 @@
-import 'package:bandicoot_orm/src/core/data_type.dart';
+import 'package:bandicoot_orm/src/data_type.dart';
 import 'package:bandicoot_orm/src/data_types/primary.dart';
 
 const _primaryType = PrimaryType();
