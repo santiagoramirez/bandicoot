@@ -1,41 +1,56 @@
 import 'package:bandicoot_orm/src/query/query.dart';
 import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
 
-// class SQLSubstitutionBuilder {
-//   Map<String, dynamic>? values;
-//   Where? where;
+typedef String Substituter(String key, [bool prepend]);
+typedef Map<String, dynamic> SubstitutionValuesGetter<T>(T? value);
+typedef Map<String, dynamic> ExtractMap<T>(T value);
 
-//   SQLSubstitutionBuilder({this.values, this.where});
+Substituter createSubstiturer(
+        [String prependValue = '', String appendValue = '']) =>
+    (String key, [bool prepend = true]) =>
+        '${prepend ? prependValue : ''}${key}${appendValue}';
 
-//   String getValue(String key) => '@${key}Value';
-//   String getWhere(String key) => '@${key}Where';
+SubstitutionValuesGetter<T> createSubstitutionValuesGetter<T>(
+        Substituter substituter, ExtractMap<T> extract) =>
+    (value) {
+      if (value == null) {
+        return {};
+      }
 
-//   Map<String, dynamic> getMap() =>
-//       {}..addAll(getValuesMap())..addAll(getWhereMap());
+      return (extract(value)).entries.fold<Map<String, dynamic>>(
+          {},
+          (previous, entry) => previous
+            ..addEntries(
+                [MapEntry(substituter(entry.key, false), entry.value)]));
+    };
 
-//   Map<String, dynamic> getValuesMap() =>
-//       (values?.entries ?? []).fold<Map<String, dynamic>>(
-//           {},
-//           (previous, entry) => previous
-//             ..addEntries([MapEntry(getValue(entry.key), entry.value)]));
+Substituter getInsertSubstitution = createSubstiturer('@', 'Insert');
+Substituter getConditionSubstitution = createSubstiturer('@', 'Condition');
 
-//   Map<String, dynamic> getWhereMap() =>
-//       (where?.conditions ?? []).fold<Map<String, dynamic>>(
-//           {},
-//           (previous, condition) => previous
-//             ..addEntries(
-//                 [MapEntry(getWhere(condition.column), condition.value)]));
-// }
+SubstitutionValuesGetter<Map<String, dynamic>> getInsertSubstitutionValues =
+    createSubstitutionValuesGetter(getInsertSubstitution, (values) => values);
+
+SubstitutionValuesGetter<List<Condition>> getConditionsSubstitutionValues =
+    createSubstitutionValuesGetter(
+        getConditionSubstitution,
+        (condititions) => condititions.fold(
+            {},
+            (previousValue, condition) => previousValue
+              ..addEntries([MapEntry(condition.column, condition.value)])));
 
 class SQLQueryBuilder implements QueryBuilder {
-  /// Build WHERE statement from [Where] class instance.
-  static String buildWhere(Where where) {
-    // SQLSubstitutionBuilder substitution = SQLSubstitutionBuilder();
-    dynamic substitution = '';
+  static Map<String, dynamic> getSubstitutionMap(
+          {Map<String, dynamic>? values, List<Condition>? conditions}) =>
+      {}
+        ..addAll(getInsertSubstitutionValues(values))
+        ..addAll(getConditionsSubstitutionValues(conditions));
 
-    String whereString = where.conditions
+  /// Build WHERE statement from [Where] class instance.
+  static String buildWhere(List<Condition> conditions) {
+    String whereString = conditions
         .map(
-          (c) => '${c.column} ${c.operator} ${substitution.getWhere(c.column)}',
+          (c) =>
+              '${c.column} ${c.operator} ${getConditionSubstitution(c.column)}',
         )
         .join(' AND ');
 
@@ -44,38 +59,27 @@ class SQLQueryBuilder implements QueryBuilder {
 
   @override
   buildFindQuery<TClass>(query) {
-    // String table;
-    // List<dynamic>? columns;
-    // Where where;
+    String columnsString =
+        query.columns.length > 0 ? query.columns.join(', ') : '*';
 
-    // SQLSelectBuilder(this.table, this.columns, this.where);
-
-    // String getSelectColumns() => columns != null ? columns!.join(', ') : '*';
-
-    // String toString() =>
-    //     'SELECT ${getSelectColumns()} FROM $table ${getWhere()};';
-
-    // SQLQuery toSqlQuery() => SQLQuery(toString(), substitution.getMap());
-
-    return PreparedQuery('');
+    return PreparedQuery(
+        'SELECT $columnsString FROM ${query.table} ${buildWhere(query.conditions)};',
+        getSubstitutionMap(conditions: query.conditions));
   }
 
   @override
   buildInsertQuery<TClass>(query) {
-    // substitution = SQLSubstitutionBuilder(values: values);
-    dynamic substitution = {};
-
     String table = query.getTable();
     Map<String, dynamic> values = query.getValues();
 
     String columnsString = '(${values.entries.map((e) => e.key).join(', ')})';
 
     String valuesString =
-        ' (${values.entries.map((e) => substitution.getValue(e.key)).join(', ')})';
+        ' (${values.entries.map((e) => getInsertSubstitution(e.key)).join(', ')})';
 
     return PreparedQuery(
         'INSERT INTO $table $columnsString VALUES ${valuesString};',
-        substitution.getMap());
+        getSubstitutionMap(values: values));
   }
 
   @override

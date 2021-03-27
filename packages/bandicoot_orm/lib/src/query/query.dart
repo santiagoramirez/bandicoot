@@ -38,18 +38,22 @@ class Limit {
   int? _limit;
   int? _offset;
 
-  limit(int limit) => _limit = limit;
-  offset(int offset) => _offset = offset;
+  int? get limit => _limit;
+  void set limit(int? limit) => _limit = limit;
+
+  int? get offset => _offset;
+  void set offset(int? offset) => _offset = offset;
 }
 
 class Order {
   String? _orderBy;
   String? _order;
 
-  orderBy(String orderBy, String? order) {
-    _orderBy = orderBy;
-    _order = order;
-  }
+  String? get orderBy => _orderBy;
+  void set orderBy(String? orderBy) => _orderBy = orderBy;
+
+  String? get order => _order;
+  void set order(String? order) => _order = order;
 }
 
 class Query<TClass> {
@@ -68,7 +72,9 @@ class Query<TClass> {
   }
 }
 
-class FindQuery<TClass> extends Query<TClass> {
+class FindQuery<TClass> extends Query<TClass> with Where, Limit, Order {
+  late List<String> columns;
+
   FindQuery(Serializer<TClass> serializer,
       [String instance = BandicootORM.defaultInstance])
       : super(serializer, instance);
