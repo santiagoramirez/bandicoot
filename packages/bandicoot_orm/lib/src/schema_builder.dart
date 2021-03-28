@@ -1,6 +1,6 @@
 import 'package:bandicoot_orm/src/column.dart';
 import 'package:bandicoot_orm/src/entity.dart';
-import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
+import 'package:bandicoot_orm/src/query_builder.dart';
 
 abstract class SchemaBuilder {
   PreparedQuery buildCreateTable(Entity entity);

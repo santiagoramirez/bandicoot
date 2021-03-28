@@ -2,8 +2,8 @@ import 'package:bandicoot_orm/bandicoot_orm.dart';
 import 'package:bandicoot_orm/src/entity.dart';
 import 'package:bandicoot_orm/src/languages/postgres/connection.dart';
 import 'package:bandicoot_orm/src/query.dart';
-import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
-import 'package:bandicoot_orm/src/schema_builders/schema_builder.dart';
+import 'package:bandicoot_orm/src/query_builder.dart';
+import 'package:bandicoot_orm/src/schema_builder.dart';
 
 class _DatabaseType {
   static const Postgres = 'postgres';

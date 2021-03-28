@@ -1,5 +1,5 @@
 import 'package:bandicoot_orm/src/query.dart';
-import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
+import 'package:bandicoot_orm/src/query_builder.dart';
 
 import './query_substitution.dart';
 

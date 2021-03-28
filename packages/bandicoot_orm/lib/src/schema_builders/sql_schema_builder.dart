@@ -1,6 +1,6 @@
 import 'package:bandicoot_orm/src/enums/sql_dialect.dart';
-import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
-import 'package:bandicoot_orm/src/schema_builders/schema_builder.dart';
+import 'package:bandicoot_orm/src/query_builder.dart';
+import 'package:bandicoot_orm/src/schema_builder.dart';
 
 class SQLSchemaBuilder implements SchemaBuilder {
   @override
