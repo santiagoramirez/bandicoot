@@ -1,7 +1,7 @@
 import 'package:bandicoot_orm/src/connection.dart';
 import 'package:bandicoot_orm/src/languages/postgres/query_builder.dart';
 import 'package:bandicoot_orm/src/languages/postgres/schema_builder.dart';
-import 'package:bandicoot_orm/src/query/query_result.dart';
+import 'package:bandicoot_orm/src/query.dart';
 import 'package:bandicoot_orm/src/query_builders/query_builder.dart';
 
 class PostgresConnection extends Connection {
@@ -20,7 +20,7 @@ class PostgresConnection extends Connection {
       'character_maximum_length'
     ];
 
-    QueryResult result = await this.query(PreparedQuery(
+    QueryResult result = await query(PreparedQuery(
         'SELECT ${columns.join(', ')} FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @table',
         {'table': table}));
 

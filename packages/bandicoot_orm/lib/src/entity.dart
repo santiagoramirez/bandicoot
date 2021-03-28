@@ -1,6 +1,6 @@
 import 'package:bandicoot_orm/src/column.dart';
 import 'package:bandicoot_orm/src/data_type.dart';
-import 'package:bandicoot_orm/src/query/query.dart';
+import 'package:bandicoot_orm/src/query.dart';
 
 abstract class Serializer<TClass> {
   TClass toClass(Map<String, dynamic> values);

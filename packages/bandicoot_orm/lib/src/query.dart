@@ -1,7 +1,6 @@
 import 'package:bandicoot_orm/bandicoot_orm.dart';
 import 'package:bandicoot_orm/src/connection.dart';
 import 'package:bandicoot_orm/src/entity.dart';
-import 'package:bandicoot_orm/src/query/query_result.dart';
 
 class Operator {
   static const Eq = '=';
@@ -19,7 +18,7 @@ class Condition {
   Condition(this.column, this.value, this.operator);
 }
 
-class Where {
+abstract class Where {
   List<Condition> conditions = [];
 
   void where(String column,
@@ -34,7 +33,7 @@ class Where {
   }
 }
 
-class Limit {
+abstract class Limit {
   int? _limit;
   int? _offset;
 
@@ -45,7 +44,7 @@ class Limit {
   void set offset(int? offset) => _offset = offset;
 }
 
-class Order {
+abstract class Order {
   String? _orderBy;
   String? _order;
 
@@ -54,6 +53,33 @@ class Order {
 
   String? get order => _order;
   void set order(String? order) => _order = order;
+}
+
+class QueryRows<TClass> {
+  List<Map<String, dynamic>> _rows = [];
+  late Serializer<TClass>? _serializer;
+
+  QueryRows(this._rows, [this._serializer]);
+
+  Iterable<TClass> toClassList() {
+    if (_serializer == null) {
+      throw '';
+    }
+
+    return _rows.map((row) => _serializer!.toClass(row));
+  }
+
+  List<Map<String, dynamic>> toMapList() => _rows;
+}
+
+class QueryResult<TClass> {
+  late QueryRows<TClass> rows;
+
+  QueryResult(
+      {required List<Map<String, dynamic>> rows,
+      Serializer<TClass>? serializer}) {
+    this.rows = QueryRows(rows, serializer);
+  }
 }
 
 class Query<TClass> {
@@ -79,84 +105,45 @@ class FindQuery<TClass> extends Query<TClass> with Where, Limit, Order {
       [String instance = BandicootORM.defaultInstance])
       : super(serializer, instance);
 
+  @override
   execute() async {
     return await getConnection(instance).find(this);
   }
 }
 
-// class SelectQuery<TClass> with Where, Limit, Order {
-//   /// Name of the current table we are selecting from.
-//   String table;
-
-//   /// List of all columns allowed to be selected.
-//   Iterable<String> columnsAllowed = [];
-
-//   /// List of columns to be selected.
-//   List<String> columnsSelected = [];
-
-//   ConnectionManager connection;
-
-//   SelectQuery(this.table, this.columnsAllowed, this.connection);
-
-//   void columns(List<String> columns) {
-//     this.columnsSelected = columns;
-//   }
-
-//   Future<QueryResult<TClass>> execute() async {
-//     QueryResult<TClass> result = await connection.select<TClass>(
-//       table,
-//       columnsSelected,
-//       // where: this,
-//     );
-
-//     return result;
-//   }
-// }
-
 class InsertQuery<TClass> extends Query<TClass> {
-  Serializer<TClass> serializer;
-
   late Map<String, dynamic> _values;
-  late TClass _model;
 
-  InsertQuery(this.serializer) : super(serializer);
+  InsertQuery(Serializer<TClass> serializer) : super(serializer);
 
-  void values(Map<String, dynamic> values) => _values = values;
-  // void model(TClass model) => _model = model;
+  Map<String, dynamic> get values => _values;
+  void set values(Map<String, dynamic> values) => _values = values;
 
-  get model => 'ddf';
-  set model(dynamic) => 'haha';
-
-  Map<String, dynamic> getValues() => _values;
-  TClass getModel() => _model;
+  @override
+  execute() async {
+    return await getConnection(instance).insert(this);
+  }
 }
 
-class UpdateQuery<TClass> extends Query<TClass> {
-  Serializer<TClass> serializer;
+class UpdateQuery<TClass> extends Query<TClass> with Where {
+  late Map<String, dynamic> _values;
 
-  UpdateQuery(this.serializer) : super(serializer);
+  UpdateQuery(Serializer<TClass> serializer) : super(serializer);
+
+  Map<String, dynamic> get values => _values;
+  void set values(Map<String, dynamic> values) => _values = values;
+
+  @override
+  execute() async {
+    return await getConnection(instance).update(this, serializer);
+  }
 }
 
-// class UpdateQuery with Where {
-//   late String _table;
-//   Map<String, dynamic> _values = {};
+class DeleteQuery<TClass> extends Query<TClass> with Where {
+  DeleteQuery(Serializer<TClass> serializer) : super(serializer);
 
-//   UpdateQuery({required table, connectionManager}) {
-//     this._table = table;
-//   }
-
-//   /// Set a map of data to be updated.
-//   data(Map<String, dynamic> values) {
-//     _values = values;
-//   }
-
-//   Future<dynamic> execute() async {
-//     await getConnection().update(_table, _values, this);
-//   }
-// }
-
-class DeleteQuery<TClass> extends Query<TClass> {
-  Serializer<TClass> serializer;
-
-  DeleteQuery(this.serializer) : super(serializer);
+  @override
+  execute() async {
+    return await getConnection(instance).delete(this);
+  }
 }
